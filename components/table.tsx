@@ -1,31 +1,38 @@
-import { sql } from '@vercel/postgres'
-import { timeAgo } from '@/lib/utils'
-import Image from 'next/image'
-import RefreshButton from './refresh-button'
-import { seed } from '@/lib/seed'
+import { sql } from "@vercel/postgres";
+import { timeAgo } from "@/lib/utils";
+import Image from "next/image";
+import RefreshButton from "./refresh-button";
+import { seed } from "@/lib/seed";
+
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  image: string;
+  createdAt: string;
+};
 
 export default async function Table() {
-  let data
-  let startTime = Date.now()
+  let data: { rows: User[] };
+  let startTime = Date.now();
 
   try {
-    data = await sql`SELECT * FROM users`
+    data = await sql<User>`SELECT * FROM users`;
   } catch (e: any) {
     if (e.message.includes('relation "users" does not exist')) {
       console.log(
-        'Table does not exist, creating and seeding it with dummy data now...'
-      )
-      // Table is not created yet
-      await seed()
-      startTime = Date.now()
-      data = await sql`SELECT * FROM users`
+        "Table does not exist, creating and seeding it with dummy data now..."
+      );
+      await seed();
+      startTime = Date.now();
+      data = await sql<User>`SELECT * FROM users`;
     } else {
-      throw e
+      throw e;
     }
   }
 
-  const { rows: users } = data
-  const duration = Date.now() - startTime
+  const { rows: users } = data;
+  const duration = Date.now() - startTime;
 
   return (
     <div className="bg-white/30 p-12 shadow-xl ring-1 ring-gray-900/5 rounded-lg backdrop-blur-lg max-w-xl mx-auto w-full">
@@ -57,10 +64,12 @@ export default async function Table() {
                 <p className="text-sm text-gray-500">{user.email}</p>
               </div>
             </div>
-            <p className="text-sm text-gray-500">{timeAgo(user.createdAt)}</p>
+            <p className="text-sm text-gray-500">
+              {timeAgo(new Date(user.createdAt))}
+            </p>
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }
