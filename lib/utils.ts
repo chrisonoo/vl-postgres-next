@@ -11,7 +11,7 @@ export function getDatabase(): DatabaseClient {
     return sql;
   } else {
     const pool = new Pool({
-      connectionString: process.env.LOCAL_DATABASE_URL,
+      connectionString: process.env.DATABASE_URL,
     });
     return {
       query: (text, params) => pool.query(text, params),
