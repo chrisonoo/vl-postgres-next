@@ -1,7 +1,7 @@
-import { getDatabase } from "./utils";
+import { getDatabase } from "./db";
 
 export async function seed() {
-  const db = getDatabase();
+  const db = await getDatabase();
 
   const createTable = await db.query(`
     CREATE TABLE IF NOT EXISTS users (

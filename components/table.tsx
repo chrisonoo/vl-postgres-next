@@ -1,4 +1,4 @@
-import { getDatabase } from "@/lib/utils";
+import { getDatabase } from "@/lib/db";
 import { timeAgo } from "@/lib/utils";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -15,7 +15,7 @@ type User = {
 };
 
 export default async function Table() {
-  const db = getDatabase();
+  const db = await getDatabase();
   let data: { rows: User[] };
   let startTime = Date.now();
 
