@@ -1,4 +1,4 @@
-import { sql } from "@vercel/postgres";
+import { getDatabase } from "@/lib/utils";
 import { timeAgo } from "@/lib/utils";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -15,11 +15,12 @@ type User = {
 };
 
 export default async function Table() {
+  const db = getDatabase();
   let data: { rows: User[] };
   let startTime = Date.now();
 
   try {
-    data = await sql<User>`SELECT * FROM users`;
+    data = await db.query("SELECT * FROM users");
   } catch (e: any) {
     if (e.message.includes('relation "users" does not exist')) {
       console.log(
@@ -27,7 +28,7 @@ export default async function Table() {
       );
       await seed();
       startTime = Date.now();
-      data = await sql<User>`SELECT * FROM users`;
+      data = await db.query("SELECT * FROM users");
     } else {
       throw e;
     }
