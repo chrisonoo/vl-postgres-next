@@ -1,4 +1,6 @@
-import RefreshButton from './refresh-button'
+import dynamic from "next/dynamic";
+
+const RefreshButton = dynamic(() => import("./refresh-button"), { ssr: false });
 
 export default function TablePlaceholder() {
   return (
@@ -25,5 +27,5 @@ export default function TablePlaceholder() {
         ))}
       </div>
     </div>
-  )
+  );
 }

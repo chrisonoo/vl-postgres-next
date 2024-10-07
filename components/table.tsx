@@ -1,8 +1,10 @@
 import { sql } from "@vercel/postgres";
 import { timeAgo } from "@/lib/utils";
 import Image from "next/image";
-import RefreshButton from "./refresh-button";
+import dynamic from "next/dynamic";
 import { seed } from "@/lib/seed";
+
+const RefreshButton = dynamic(() => import("./refresh-button"), { ssr: false });
 
 type User = {
   id: number;
