@@ -5,6 +5,11 @@ import Table from '@/components/table';
 import TablePlaceholder from '@/components/table-placeholder';
 import ExpandingArrow from '@/components/expanding-arrow';
 
+// Powoduje błędy z modułem pg, który łączy się z lokalną bazą danych.
+// AI twierdzi, że powodem jest to, że funkcje brzegowe nie mają dostępu do modułu fs,
+// który jest wykorzystywany przez pg.
+
+// export const runtime = 'edge'
 export const preferredRegion = 'home';
 export const dynamic = 'force-dynamic';
 
