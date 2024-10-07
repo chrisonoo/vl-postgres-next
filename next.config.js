@@ -3,10 +3,10 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["@vercel/postgres"],
   },
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
+  webpack: (config, { isServer, dev }) => {
+    if (!isServer && !dev) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
         pg: false,
       };
     }
