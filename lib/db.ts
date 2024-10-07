@@ -1,4 +1,4 @@
-import { sql } from "@vercel/postgres";
+import {sql} from '@vercel/postgres';
 
 export type DatabaseClient = {
   query: (text: string, params?: any[]) => Promise<{ rows: any[] }>;
@@ -11,7 +11,7 @@ export async function getDatabase(): Promise<DatabaseClient> {
     if (process.env.VERCEL) {
       db = sql;
     } else {
-      const { Pool } = await import("pg");
+      const {Pool} = await import('pg');
       const pool = new Pool({
         connectionString: process.env.DATABASE_URL,
       });

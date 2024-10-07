@@ -1,4 +1,4 @@
-export default function ExpandingArrow({ className }: { className?: string }) {
+export default function ExpandingArrow({className}: { className?: string }) {
   return (
     <div className="group relative flex items-center">
       <svg
@@ -32,5 +32,5 @@ export default function ExpandingArrow({ className }: { className?: string }) {
         ></path>
       </svg>
     </div>
-  )
+  );
 }

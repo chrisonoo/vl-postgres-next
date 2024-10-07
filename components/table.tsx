@@ -1,10 +1,10 @@
-import { getDatabase } from "@/lib/db";
-import { timeAgo } from "@/lib/utils";
-import Image from "next/image";
-import dynamic from "next/dynamic";
-import { seed } from "@/lib/seed";
+import {getDatabase} from '@/lib/db';
+import {timeAgo} from '@/lib/utils';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import {seed} from '@/lib/seed';
 
-const RefreshButton = dynamic(() => import("./refresh-button"), { ssr: false });
+const RefreshButton = dynamic(() => import('./refresh-button'), {ssr: false});
 
 type User = {
   id: number;
@@ -20,25 +20,26 @@ export default async function Table() {
   let startTime = Date.now();
 
   try {
-    data = await db.query("SELECT * FROM users");
+    data = await db.query('SELECT * FROM users');
   } catch (e: any) {
     if (e.message.includes('relation "users" does not exist')) {
       console.log(
-        "Table does not exist, creating and seeding it with dummy data now..."
+        'Table does not exist, creating and seeding it with dummy data now...',
       );
       await seed();
       startTime = Date.now();
-      data = await db.query("SELECT * FROM users");
+      data = await db.query('SELECT * FROM users');
     } else {
       throw e;
     }
   }
 
-  const { rows: users } = data;
+  const {rows: users} = data;
   const duration = Date.now() - startTime;
 
   return (
-    <div className="bg-white/30 p-12 shadow-xl ring-1 ring-gray-900/5 rounded-lg backdrop-blur-lg max-w-xl mx-auto w-full">
+    <div
+      className="bg-white/30 p-12 shadow-xl ring-1 ring-gray-900/5 rounded-lg backdrop-blur-lg max-w-xl mx-auto w-full">
       <div className="flex justify-between items-center mb-4">
         <div className="space-y-1">
           <h2 className="text-xl font-semibold">Recent Users</h2>
@@ -46,7 +47,7 @@ export default async function Table() {
             Fetched {users.length} users in {duration}ms
           </p>
         </div>
-        <RefreshButton />
+        <RefreshButton/>
       </div>
       <div className="divide-y divide-gray-900/5">
         {users.map((user) => (
